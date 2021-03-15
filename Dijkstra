@@ -1,0 +1,39 @@
+#include<cstdio>
+#include<algorithm>
+#include<iostream>
+#define INF 1000000
+using namespace std;
+
+int map[1010][1010];
+int dis[1010];
+int en[1010];
+
+void dijkstra(int n) {
+	memset(dis, INF, sizeof dis);
+	dis[1] = 0;
+	for (int i = 0; i < n; i++) {
+		int k = -1;
+		for (int j = 1; j <= n; j++)
+			if (!en[j] && (k == -1 || dis[k] > dis[j]))k = j;
+		en[k] = 1;
+		for (int j = 1; j <= n; j++)
+			dis[j] = min(dis[j], dis[k] + map[k][j]);
+	}
+	
+}
+
+int main() {
+	int m, n;
+	cout << "点和边数：";
+	cin >> n >> m;
+	memset(map, INF, sizeof map);
+	while (m--) {
+		int a, b, c;
+		cin >> a >> b >> c;
+		map[a][b] = min(map[a][b], c);
+	}
+	dijkstra(n);
+	for (int i = 2; i <= n; i++)
+		cout << "-->"<<i<<":"<<dis[i]<<endl;
+	return 0;
+}
