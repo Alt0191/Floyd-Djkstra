@@ -1,0 +1,47 @@
+#include<cstdio>
+#include<algorithm>
+#include<iostream>
+#define INF 1000000
+using namespace std;
+
+int dis[1010][1010];
+int enable[1010][1010];
+
+void init(int n) {
+	for(int i=1;i<=n;i++)
+		for (int j = 1; j <= n; j++) {
+			dis[i][j] = INF;
+			if (i == j)dis[i][j] = 0;
+		}
+}
+
+void floyd(int n) {
+	for(int q=1;q<=n;q++)
+		for(int i=1;i<=n;i++)
+			for(int j=1;j<=n;j++)
+				if (dis[i][q] + dis[q][j] < dis[i][j]) {
+					dis[i][j] = dis[i][q] + dis[q][j];
+					//cout << dis[i][j] << endl;
+				}
+}
+
+int main() {
+	int m, n;
+	cout << "点和边数：";
+	cin >> n >> m;
+	init(n);
+	int a, b, c;
+	for (int i = 0; i < m; i++) {
+		cin >> a >> b >> c;
+		dis[a][b] = c;
+	}
+	floyd(n);
+
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++)
+			cout << dis[i][j] << " ";
+		cout << endl;
+	}
+
+	return 0;
+}
